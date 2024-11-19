@@ -1,0 +1,95 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<article>
+    @* Bootstrap Carousel - latest 4 movies *@
+    <section>
+        <div id="latestEntertainmentSwitcher" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @for (int i = 0; i < Model.NewMovies.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        <button type="button" data-bs-target="#latestEntertainmentSwitcher" data-bs-slide-to="@i" aria-label="@Model.NewMovies.ElementAt(i).Title" class="active" aria-current="true"></button>
+                    }
+                    else
+                    {
+                        <button type="button" data-bs-target="#latestEntertainmentSwitcher" data-bs-slide-to="@i" aria-label="@Model.NewMovies.ElementAt(i).Title"></button>
+                    }
+                }
+            </div>
+            <div class="carousel-inner">
+                @{
+                    int switcherIndex = 0;
+                    string GetIsActiveSwitcher(int level)
+                    {
+                        switch (level)
+                        {
+                            case 0:
+                                return "active";
+                            default:
+                                return "";
+                        }
+                    }
+                }
+                @foreach (var movie in Model.NewMovies)
+                {
+                    <div class="carousel-item @GetIsActiveSwitcher(switcherIndex)" data-bs-interval="10000">
+                        <img src="@movie.Media.BaseImagePath" class="d-block w-100" alt="@movie.Title">
+                        <div class="carousel-caption d-none d-md-block text-start text-align-bottom">
+                            <h5>@movie.Title</h5>
+                            <p class="small">
+                                <span class="badge rounded-pill">@movie.Rating</span>
+                                <i class="fa-solid fa-video"></i> @movie.Duration min
+                                @* Genre: @String.Join(", ", @movie.Genres.Select(s => s.Name)) *@
+                                </p>
+                            <p class="small">@movie.Description</p>
+                            <a href="#" role="button">Watch Now</a>
+                        </div>
+                    </div>
+                    switcherIndex++;
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#latestEntertainmentSwitcher" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#latestEntertainmentSwitcher" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </section>
+    @* Pagination - Movies *@
+    <section>
+        <h2>Movies</h2>
+        <div class="row">
+            @foreach(var movie in Model.Movies){
+                <div class="card col-4 col-md-2 col-lg-2">
+                    <img class="card-img-top" src="@movie.Media.ThumbnailPath" alt="@movie.Title" />
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Title</h5>
+                        <p class="card-text">
+                            <span class=""> @movie.ReleaseDate.Year</span>
+                            <span class="dot"></span>
+                            <span class="">@movie.Duration</span><span>min</span>                 
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    @* Pagination - TV Show *@
+    <section hidden>
+        <h2>TV Shows</h2>
+    </section>
+</article>
+
+
+

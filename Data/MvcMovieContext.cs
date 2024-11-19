@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MvcMovie.Models;
+
+namespace MvcMovie.Data
+{
+    public class MvcMovieContext : DbContext
+    {
+        public MvcMovieContext (DbContextOptions<MvcMovieContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<MvcMovie.Models.Movie> Movie { get; set; } = default!;
+
+        public DbSet<Media> Media { get; set; } = default!;
+
+        public DbSet<Genre> Genres { get; set; } = default!;
+
+        public DbSet<Country> Countries { get; set; } = default!;
+    }
+}
